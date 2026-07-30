@@ -1,0 +1,52 @@
+﻿@using System.Linq
+
+@model IEnumerable<IGrouping<string, RoutineActivity>>
+
+@{
+    ViewData["Title"] = "My History";
+}
+
+<div class="islamic-card" style="max-width: 500px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+
+    <div style="text-align: left; margin-bottom: 1.5rem;">
+        <a href="/Home/Index" style="color: #6b7280; text-decoration: none; font-weight: bold; padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 6px; display: inline-block; transition: all 0.2s ease;">
+            ⬅️  Back
+        </a>
+    </div>
+
+    <h2 style="text-align: center; color: #1f2937; margin-bottom: 1rem;">
+        History
+    </h2>
+    <hr style="border: 0; height: 2px; background-color: var(--primary-main); margin-bottom: 1.5rem;" />
+
+    @if (!Model.Any())
+    {
+        <p style="text-align: center; color: #6b7280; font-style: italic;">
+            No tasks completed yet. Start checking off your daily tasks!
+        </p>
+    }
+    else
+    {
+        @foreach (var dayGroup in Model)
+        {
+            <div style="margin-bottom: 1.5rem;">
+                <!-- The Date Header -->
+                <h4 style="color: var(--accent-gold); border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 10px;">
+                    @Convert.ToDateTime(dayGroup.Key).ToString("dddd, MMMM dd, yyyy")
+                </h4>
+
+                <!-- The List of Completed Tasks for that date -->
+                <ul style="list-style-type: none; padding-left: 10px; margin: 0;">
+                    @foreach (var task in dayGroup)
+                    {
+                        <li class="arabic-text" style="color: #374151; padding: 5px 0; display: flex; align-items: center;">
+                            <span style="color: #10b981; font-weight: bold; margin-right: 10px; padding-left:10px;">✓</span>
+                            @task.TaskName
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+
+</div>

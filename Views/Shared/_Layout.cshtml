@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A simple, responsive daily habit and routine tracker. Track your morning, evening, sleep, and travel goals.">
+    <meta name="keywords" content="habit tracker, adhkar, daily planner, routines, islamic companion. islamic">
+    <meta name="google-site-verification" content="VbCx6Zv4C3t4FPbjahzG1Fjp-1hGZPQa-hoYmw6jXNc" />
+    <title>@ViewData["Title"] - Islamic Companion</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @{
+        // 1. Get the current logged-in username or ID
+        var currentUsername = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        // 2. Check if it's the dedicated user (Change this to their exact username/email)
+        bool isSpecialUser = currentUsername == "besso";
+    }
+
+    @if (isSpecialUser)
+    {
+        <style>
+                :root {
+                    /* Overwriting the blue/pink with a dark theme example */
+                    /* The Pink & Magenta Foundation */
+                    --primary-dark: #E85D96; /* A deeper magenta-pink for active buttons/shadows */
+                    --primary-main: #FF8FAB; /* A cute, vibrant pastel pink for main elements */
+                    --primary-light: #FFE5EC; /* A soft cloud-pink for backgrounds or hover effects */
+                    /* The Baby Blue Accents (Keeping your var names!) */
+                    --accent-gold: #A2D2FF; /* The perfect modern baby blue */
+                    --accent-gold-hover: #8DBFF0; /* A slightly deeper baby blue when clicked/hovered */
+                    /* The Neutrals (Tinted slightly to match the vibe) */
+                    --bg-cream: #FCF9FA; /* A crisp, clean off-white with a microscopic hint of pink */
+                    --surface-white: #ffffff; /* Pure white for your cards */
+                    /* The Text (Switched from harsh slate to a softer navy-purple tint) */
+                    --text-dark: #2B2D42;
+                    --text-muted: #8D99AE;
+                    --border-color: #F4E6EB;
+                }
+        </style>
+    }
+</head>
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button id="sidebarToggle" class="menu-btn">☰</button>
+        <span class="mobile-brand">🌙 Islamic Companion</span>
+    </div>
+
+    <!-- Fixed Sidebar -->
+    <aside class="sidebar-nav" id="sidebar">
+        <div class="sidebar-brand">
+            <span>🌙</span> Islamic Companion
+        </div>
+        <div class="islamic-card welcome-card" style="border-left: 6px solid var(--accent-gold); border-top: none; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding: 1.75rem 1.5rem; ">
+
+            <!-- Optional Emoji or Icon -->
+            <div style="font-size: 1.5rem; line-height: 1;">
+                👋
+            </div>
+
+            <!-- Text Content -->
+            <div style="color:var(--bg-cream)">
+                <h2 style="margin: 0; font-size: 1.2rem; color: var(--primary-dark); text-align:center;">
+                    Welcome Back, @User.Identity.Name!
+                </h2>
+            </div>
+        </div>
+        <hr style="border: none; border-top: 2px dashed var(--accent-gold); margin: 0 0 2rem 0; width:90%" />
+
+        <nav class="sidebar-links">
+            <a asp-controller="Home" asp-action="Index" class="sidebar-link"><span class="icon">📊</span>Dashboard</a>
+            <a asp-controller="Dhikr" asp-action="Adhkar" class="sidebar-link"><span class="icon">📿</span>Adhkar</a>
+            <a asp-controller="Home" asp-action="UserHistory" class="sidebar-link"><span class="icon">📜</span>History</a>
+            <a asp-controller="Friends" asp-action="Community" class="sidebar-link"><span class="icon">👥</span>Community</a>
+            <a asp-controller="Account" asp-action="Profile" class="sidebar-link"><span class="icon">👤</span>Profile</a>
+
+            <hr style="border: none; border-top: 2px dashed var(--accent-gold); margin: 2rem 0 2rem 0; width:90%" />
+
+            <!-- Check if the user is logged in -->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div>
+                    <a asp-controller="Account" asp-action="Logout" class="sidebar-link" style="color: #fca5a5 !important;">
+                        <span class="icon">🚪</span> Logout
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a asp-controller="Account" asp-action="Login" class="sidebar-link">
+                        <span class="icon">🔑</span> Login
+                    </a>
+                </div>
+            }
+
+            <!-- Developed By Section -->
+            <div class="sidebar-footer" style="text-align: center;">
+                Developed By <br /><strong style="color: var(--accent-gold); font-weight: 700;">Mazen Thobian</strong>
+            </div>
+
+        </nav>
+    </aside>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- The strict wrapper that prevents overlap -->
+    <div class="app-wrapper">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

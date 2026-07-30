@@ -1,0 +1,168 @@
+﻿@model IslamicCompanion.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+
+    @if (Model.NeedsLocation)
+    {
+        <!-- The JS file is looking for this exact ID -->
+        <div id="location-loader" class="islamic-card" style="text-align: center; padding: 4rem; margin-top: 2rem;">
+            <h2 style="color: var(--primary-dark);">📍 Locating You...</h2>
+            <p>Please allow location access so we can provide accurate prayer times for your exact city.</p>
+        </div>
+    }
+    else
+    {
+        <div class="dashboard-header">
+            <h1>Islamic Companion</h1>
+            <div class="hijri-badge">📅 @Model.HijriDate</div>
+        </div>
+
+        <div class="dashboard-layout">
+
+            <!-- LEFT SIDE: Main Focus Items -->
+            <div class="main-column">
+
+                <!-- 1. Next Prayer Spotlight Card -->
+                <div class="islamic-card next-prayer-card">
+                    <div class="card-title">⏳ Upcoming Prayer</div>
+                    <div class="next-prayer-name">@Model.NextPrayerName</div>
+                    <div class="next-prayer-time">
+                        @Model.NextPrayerTime.ToString(@"hh\:mm")
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.85;">
+                        ( @Model.RemainingTime.Hours h : @Model.RemainingTime.Minutes m ) remaining
+                    </p>
+                </div>
+
+                <!-- 2. Verse of the Day -->
+                <div class="islamic-card">
+                    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>📖 Verse of the Day</span>
+                        <button class="counter-reset" onclick="loadNewVerse()" style="margin: 0; padding: 0.3rem 0.8rem;">
+                            🔄 Another Verse
+                        </button>
+                    </div>
+
+                    <!-- Added IDs to these divs so JS can update them -->
+                    <div class="arabic-text" id="verse-arabic">
+                        @Model.DailyVerse.ArabicText
+                    </div>
+                    <div class="verse-ref" id="verse-ref">
+                        [@Model.DailyVerse.SurahNumber:@Model.DailyVerse.AyahNumber]— @Model.DailyVerse.SurahName ( سورة @Model.DailyVerse.SurahNameArabic )
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE: Utilities and Schedules -->
+            <div class="sidebar">
+
+                <!-- 3. Daily Prayer Timings -->
+                <div class="islamic-card">
+                    <div class="card-title">🕌 Prayer Times</div>
+                    <div class="prayer-list">
+                        <div class="prayer-row @(Model.NextPrayerName == "Fajr" ? "active" : "")">
+                            <span>Fajr</span>
+                            <span>@Model.TodayPrayers.Fajr.ToString(@"hh\:mm")</span>
+                        </div>
+                        <div class="prayer-row">
+                            <span>Sunrise</span>
+                            <span>@Model.TodayPrayers.Sunrise.ToString(@"hh\:mm")</span>
+                        </div>
+                        <div class="prayer-row @(Model.NextPrayerName == "Dhuhr" ? "active" : "")">
+                            <span>Dhuhr</span>
+                            <span>@Model.TodayPrayers.Dhuhr.ToString(@"hh\:mm")</span>
+                        </div>
+                        <div class="prayer-row @(Model.NextPrayerName == "Asr" ? "active" : "")">
+                            <span>Asr</span>
+                            <span>@Model.TodayPrayers.Asr.ToString(@"hh\:mm")</span>
+                        </div>
+                        <div class="prayer-row @(Model.NextPrayerName == "Maghrib" ? "active" : "")">
+                            <span>Maghrib</span>
+                            <span>@Model.TodayPrayers.Maghrib.ToString(@"hh\:mm")</span>
+                        </div>
+                        <div class="prayer-row @(Model.NextPrayerName == "Isha" ? "active" : "")">
+                            <span>Isha</span>
+                            <span>@Model.TodayPrayers.Isha.ToString(@"hh\:mm")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="islamic-card">
+                    <h3 style="color: var(--primary-dark); margin-bottom: 1rem; border-bottom: 2px solid var(--accent-gold); padding-bottom: 0.5rem;">
+                        Daily Tasks
+                    </h3>
+
+                    <ul class="arabic-text" style="list-style-type: none; padding: 0; margin: 0;">
+                        @foreach (var task in Model.DailyTasks)
+                        {
+                            <li style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center;">
+                                @{
+                                    if (task.IsCompleted)
+                                    {
+                                        <input type="checkbox" id="task_@task.TaskId" checked style="accent-color: var(--primary-main); width: 22px; height: 22px; margin-right: 15px; cursor: pointer;" onchange="updateTask(this, @task.TaskId, '@task.TaskName')" />
+                                        <label for="@task.TaskId" style="cursor: pointer; font-size: 1.1rem; color: #374151; margin: 0; padding-right:20px;">
+                                            @task.TaskName
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="task_@task.TaskId" style="accent-color: var(--primary-main); width: 22px; height: 22px; margin-right: 15px; cursor: pointer;" onchange="updateTask(this, @task.TaskId, '@task.TaskName')" />
+                                        <label for="@task.TaskId" style="cursor: pointer; font-size: 1.1rem; color: #374151; margin: 0; padding-right:20px;">
+                                            @task.TaskName
+                                        </label>
+                                    }
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @section Scripts {
+            <script>
+    // 1. Daily Verse Loader
+        async function loadNewVerse() {
+            document.getElementById('verse-arabic').innerText = '⏳ Loading...';
+            document.getElementById('verse-translation').innerText = '';
+            document.getElementById('verse-ref').innerText = '';
+
+            try {
+                const response = await fetch('/Home/GetRandomVerse');
+                const verse = await response.json();
+
+                document.getElementById('verse-arabic').innerText = verse.arabicText;
+                document.getElementById('verse-translation').innerText = `"${verse.translation}"`;
+                document.getElementById('verse-ref').innerText = `— ${verse.surahName} (${verse.surahNameArabic}) [${verse.surahNumber}:${verse.ayahNumber}]`;
+            } catch (error) {
+                document.getElementById('verse-translation').innerText = "Failed to load verse. Please try again.";
+            }
+        }
+
+        // 2. Silent Background Save (Cleaned Up)
+        function updateTask(checkboxElement, taskId, taskName) {
+            fetch('/Home/ToggleDailyTask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    TaskId: taskId,
+                    TaskName: taskName,
+                    IsCompleted: checkboxElement.checked
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    alert("Failed to save task to server.");
+                    checkboxElement.checked = !checkboxElement.checked;
+                }
+            })
+            .catch(() => {
+                alert("Network error. Could not save task.");
+                checkboxElement.checked = !checkboxElement.checked;
+            });
+        }
+</script>
+        }
+    }
+}
+

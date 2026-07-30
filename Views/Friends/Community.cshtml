@@ -1,0 +1,163 @@
+﻿@model IEnumerable<IslamicCompanion.Models.Friendship>
+@{
+    ViewData["Title"] = "Community";
+    var currentUserId = ViewBag.CurrentUserId;
+    var pendingRequests = ViewBag.PendingRequests as IEnumerable<IslamicCompanion.Models.Friendship>;
+}
+
+<div style="max-width: 600px; margin: 0 auto; padding: 2rem;">
+    <h2 class="mb-4 text-center">Community</h2>
+
+    <div class="row">
+
+        <!-- LEFT COLUMN: Add Friend & Pending Requests -->
+        <div class="col-md-5 mb-4">
+
+            <!-- Add Friend Box using your islamic-card -->
+            <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
+                <h3 style="margin: 0; margin-bottom: 1rem;">Add a Friend</h3>
+                <form asp-action="SendRequest" method="post">
+                    <div class="islamic-input-wrapper">
+                        <div style="display:flex; gap: 1rem; align-items:stretch;">
+                            <input type="text" name="targetUsername" class="islamic-textbox" placeholder="Enter username..." required />
+                            <button type="submit" class="islamic-btn" style="background-color: var(--primary-main);">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Pending Requests Box using your islamic-card -->
+            @if (pendingRequests != null && pendingRequests.Any())
+            {
+                <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
+                    <h3 style="margin: 0; margin-bottom: 1rem;">Pending Requests</h3>
+
+                    @foreach (var request in pendingRequests)
+                    {
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0;">
+                            <div>
+                                <strong style="font-size: 1.2rem;">@request.Requester.DisplayName</strong><br />
+                                <span style="color: var(--accent-gold);">Username: <span style="color: #1E293B">@request.Requester.Username</span></span>
+                            </div>
+                            <div style="display:flex; flex-direction:row; gap:5px;">
+                                <form asp-controller="Friends" asp-action="AcceptRequest" method="post">
+                                    <input type="hidden" name="friendshipId" value="@request.Id" />
+                                    <button type="submit" class="islamic-action-btn btn-accept" title="Accept Request">✓</button>
+                                </form>
+
+                                <form asp-controller="Friends" asp-action="RemoveFriend" method="post">
+                                    <input type="hidden" name="friendshipId" value="@request.Id" />
+                                    <button type="submit" class="islamic-action-btn btn-decline" title="Decline Request">✕</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- RIGHT COLUMN: Friends Dashboard -->
+        <div class="col-md-7 mb-4">
+
+            <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem; height: 100%;">
+                <h1 style="margin: 0; margin-bottom: 1.5rem; text-align: center;">My Friends</h1>
+
+                @if (!Model.Any())
+                {
+                    <p style="font-size: 1.2rem; color: var(--accent-gold); text-align:center; margin-top: 2rem;">
+                        You haven't added any friends yet. Search for a username to start building your community!
+                    </p>
+                }
+                else
+                {
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        @foreach (var friendship in Model)
+                        {
+                            var friend = (friendship.RequesterId.ToString() == currentUserId.ToString())
+                                ? friendship.Receiver
+                                : friendship.Requester;
+
+                            <div class="col">
+                                <!-- Individual Friend Card applying your exact styles -->
+                                <div class="islamic-card" style="padding: 1.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+
+                                    <h2 style="margin: 0; text-align: center; color:var(--accent-gold)">@friend.DisplayName</h2>
+
+                                    <hr style="opacity: 0.5;" />
+
+                                    <!-- Streak (Matches your snippet) -->
+                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">Current Streak:</h3>
+                                    <p style="font-size: 2rem; color: #f59e0b; font-weight: bold; text-align:center; margin-bottom: 15px;">
+                                        @friend.CurrentStreak days 🔥
+                                    </p>
+
+                                    <hr style="opacity: 0.3;" />
+
+                                    <!-- Total Sessions (Matches your snippet) -->
+                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">Total Adhkar:</h3>
+                                    <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center; margin-bottom: 1.5rem;">
+                                        @friend.TotalAdhkarSessions
+                                    </p>
+
+                                    <hr style="opacity: 0.3;" />
+
+                                    <!-- Total Sessions (Matches your snippet) -->
+                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">Total Done Tasks:</h3>
+                                    <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center; margin-bottom: 1.5rem;">
+                                        @friend.TotalDoneTasks
+                                    </p>
+
+                                    <form asp-action="RemoveFriend" method="post">
+                                        <input type="hidden" name="friendshipId" value="@friendship.Id" />
+                                        <button type="submit" class="islamic-btn-remove" onclick="return confirm('Are you sure you want to remove @friend.DisplayName?');">
+                                            Remove Friend
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Pull in SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // Fire Success Alert
+        @if (TempData["Success"] != null)
+            {
+                <text>
+                        Swal.fire({
+                            title: 'Success!',
+                        text: '@TempData["Success"]',
+                        icon: 'success',
+                        confirmButtonColor: '#185a44', // Matches your custom green
+                        background: '#f9f7f2',         // Matches your --bg-cream
+                        color: '#1e293b'               // Matches your --text-dark
+                        });
+                </text>
+        }
+
+            // Fire Error Alert
+            @if (TempData["Error"] != null)
+            {
+                <text>
+                        Swal.fire({
+                            title: 'Wait a second...',
+                        text: '@TempData["Error"]',
+                        icon: 'error',
+                        confirmButtonColor: '#185a44',
+                        background: '#f9f7f2',
+                        color: '#1e293b'
+                        });
+                </text>
+        }
+
+        });
+</script>

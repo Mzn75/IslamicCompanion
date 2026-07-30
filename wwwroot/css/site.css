@@ -1,0 +1,555 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-dark: #0d3829;
+    --primary-main: #185a44;
+    --primary-light: #2c8567;
+    --accent-gold: #d4af37;
+    --accent-gold-hover: #b89524;
+    --bg-cream: #f9f7f2;
+    --surface-white: #ffffff;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --font-ui: 'Outfit', sans-serif;
+    --font-arabic: 'Amiri', serif;
+}
+
+body {
+    background-color: var(--bg-cream);
+    font-family: var(--font-ui);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================================
+   1. Sidebar & App Layout
+========================================= */
+
+.app-wrapper {
+    padding-left: 250px; /* The physical wall preventing overlap */
+    width: 100%;
+    min-height: 100vh;
+}
+
+.sidebar-nav {
+    width: 300px;
+    background: var(--primary-dark);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    border-right: 2px solid var(--accent-gold);
+    overflow-y:auto;
+}
+
+.sidebar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top:2rem;
+    padding-bottom:2.75rem;
+    border-bottom: 2px dashed var(--accent-gold);
+    width:90%;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 1.25rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .sidebar-link:hover, .sidebar-link.active {
+        background: rgba(212, 175, 55, 0.15);
+        color: var(--accent-gold) !important;
+    }
+    .sidebar-link .icon {
+        font-size: 1.3rem;
+        opacity: 0.9;
+    }
+
+.mobile-header {
+    display: none;
+    background: var(--primary-dark);
+    color: white;
+    padding: 1rem 1.5rem;
+    align-items: center;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: 2px solid var(--accent-gold);
+}
+
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-gold);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.mobile-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 998;
+}
+
+/* Page Headers */
+.dashboard-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-main) 100%);
+    color: white;
+    padding: 3rem 1.5rem 2rem 1.5rem;
+    border-bottom: 4px solid var(--accent-gold);
+    text-align: center;
+}
+
+    .dashboard-header h1 {
+        margin: 0;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .dashboard-header .hijri-badge {
+        display: inline-block;
+        margin-top: 0.5rem;
+        background: rgba(212, 175, 55, 0.2);
+        border: 1px solid var(--accent-gold);
+        color: var(--accent-gold);
+        padding: 0.35rem 1rem;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+/* =========================================
+   2. Layout Grids
+========================================= */
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2rem;
+    max-width: 1300px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    align-items: start;
+}
+
+.adhkar-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1300px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.main-column, .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* =========================================
+   3. Cards & Components
+========================================= */
+
+.islamic-card {
+    background: var(--surface-white);
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 20px rgba(13, 56, 41, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-top: 4px solid var(--primary-main);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .islamic-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(13, 56, 41, 0.1);
+    }
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Next Prayer Spotlight Card */
+.next-prayer-card {
+    background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+    color: white;
+    border-top: 4px solid var(--accent-gold);
+    text-align: center;
+}
+
+    .next-prayer-card .card-title {
+        color: var(--accent-gold);
+        justify-content: center;
+    }
+
+.next-prayer-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.next-prayer-time {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+/* Prayer Schedule Table */
+.prayer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.prayer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background-color: var(--bg-cream);
+    font-weight: 600;
+}
+
+    .prayer-row.active {
+        background-color: var(--primary-main);
+        color: white;
+    }
+
+/* Quran & Adhkar Texts */
+.arabic-text {
+    font-family: var(--font-arabic);
+    font-size: 2.2rem;
+    color: var(--primary-dark);
+    direction: rtl;
+    text-align: right;
+    line-height: 2.1;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--bg-cream);
+    border-radius: 12px;
+    border-right: 4px solid var(--accent-gold);
+}
+
+.verse-translation {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+.verse-ref {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-light);
+    text-transform: uppercase;
+}
+
+/* Dhikr Counter Widget */
+.dhikr-container {
+    text-align: center;
+}
+
+.dhikr-counter-btn {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+    color: var(--accent-gold);
+    border: 3px solid var(--accent-gold);
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(24, 90, 68, 0.3);
+    transition: transform 0.1s ease, background 0.2s ease;
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .dhikr-counter-btn:active {
+        transform: scale(0.92);
+    }
+
+.counter-reset {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+    .counter-reset:hover {
+        background: #f1f5f9;
+    }
+
+/* 1. When the user hovers their mouse over the textbox */
+input:hover {
+    background-color: #fdfbf7; /* Very light cream */
+    transition: background-color 0.3s ease; /* Makes the color change smooth */
+}
+
+/* 2. When the user clicks inside to type */
+input:focus {
+    background-color: #fef8e7; /* Warmer cream when active */
+    outline: none; /* Removes the ugly default browser blue glow */
+    border-color: var(--accent-gold); /* Changes border to your gold color */
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.3); /* Adds a soft gold glow */
+    transition: all 0.3s ease;
+}
+
+/* =========================================
+   4. Responsive Media Queries
+========================================= */
+
+/* Tablet & Landscape Phone Adjustments (Sidebar Layout) */
+@media (max-width: 992px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr; /* Stacks the main column */
+    }
+
+    /* Move the sidebar hiding logic up here to catch landscape phones */
+    .mobile-header {
+        display: flex;
+    }
+
+    .sidebar-nav {
+        transform: translateX(-100%);
+    }
+
+        .sidebar-nav.open {
+            transform: translateX(0);
+        }
+
+    .app-wrapper {
+        padding-left: 0; /* Let content take full width */
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+}
+
+/* Portrait Mobile Phone Adjustments (Text & Padding Only) */
+@media (max-width: 768px) {
+
+    /* Reduce header padding and title size */
+    .dashboard-header {
+        padding: 2rem 1rem 1.5rem 1rem;
+    }
+
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+        }
+
+    /* Scale down typography */
+    .next-prayer-time {
+        font-size: 2.2rem;
+    }
+
+    .arabic-text {
+        font-size: 1.6rem;
+        line-height: 1.8;
+    }
+
+    /* Reduce padding inside the cards */
+    .islamic-card {
+        padding: 1.25rem;
+    }
+}
+
+/* Container for the label and input */
+.islamic-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    font-family: var(--font-ui);
+}
+
+/* The Label */
+.islamic-input-label {
+    color: var(--primary-main);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* The Textbox itself */
+.islamic-textbox {
+    background-color: var(--surface-white);
+    border: 2px solid var(--border-color);
+    color: var(--text-dark);
+    font-family: var(--font-ui);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+    width: 100%;
+}
+
+    .islamic-textbox::placeholder {
+        color: var(--text-muted);
+    }
+
+    .islamic-textbox:hover {
+        border-color: var(--primary-light);
+    }
+
+    .islamic-textbox:focus {
+        border-color: var(--primary-main);
+        /* Creates a soft green glow using your primary color with low opacity */
+        box-shadow: 0 0 0 4px rgba(24, 90, 68, 0.15);
+    }
+
+/* The Standalone Button */
+.islamic-btn {
+    background-color: var(--primary-main);
+    color: var(--surface-white);
+    border: 2px solid var(--primary-main);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px; /* Restores corners on all sides */
+    font-family: var(--font-ui);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+    .islamic-btn:hover,
+    .islamic-btn:focus {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-1px); /* Slight lift effect */
+    }
+
+/* Base shape for list buttons */
+.islamic-action-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%; /* Makes them perfectly round */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 0;
+}
+
+/* The Accept Checkmark */
+.btn-accept {
+    background-color: rgba(24, 90, 68, 0.1); /* A very faint version of your green */
+    color: var(--primary-main);
+    border: 1px solid rgba(24, 90, 68, 0.2);
+}
+
+    .btn-accept:hover {
+        background-color: var(--primary-main);
+        color: var(--surface-white);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(24, 90, 68, 0.2);
+    }
+
+/* The Decline/Remove X */
+.btn-decline {
+    background-color: var(--bg-cream);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+
+    .btn-decline:hover {
+        background-color: #ef4444; /* A soft modern red */
+        color: var(--surface-white);
+        border-color: #ef4444;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+    }
+
+/* Custom Remove Friend Button */
+.islamic-btn-remove {
+    width: 100%; /* Replaces w-100 */
+    background-color: transparent;
+    color: #ef4444; /* Soft modern red */
+    border: 2px solid #ef4444;
+    padding: 0.5rem 1rem; /* Replaces btn-sm */
+    border-radius: 8px;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+    .islamic-btn-remove:hover,
+    .islamic-btn-remove:focus {
+        background-color: #ef4444;
+        color: var(--surface-white);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+    }
