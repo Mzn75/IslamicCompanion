@@ -56,6 +56,7 @@
     `;
     }
 
+
 });
 
 /// Sidebar Toggle Logic
@@ -77,4 +78,13 @@ if (sidebarToggle && sidebar && overlay) {
 
     // Close menu when clicking the dark background overlay
     overlay.addEventListener("click", toggleSidebar);
+}
+
+
+function setLanguage(culture) {
+    // Set the ASP.NET Core cookie using the exact string format it expects
+    document.cookie = ".AspNetCore.Culture=c=" + culture + "|uic=" + culture + ";path=/;max-age=31536000";
+
+    // Reload the page instantly
+    location.reload();
 }

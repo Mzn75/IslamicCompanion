@@ -21,7 +21,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new System.IO.DirectoryInfo(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Keys")));
 
-// Register your Auth Service
 builder.Services.AddScoped<IslamicCompanion.Services.AppAuthService>();
 
 builder.Services.AddControllersWithViews();
@@ -29,15 +28,29 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IslamicCompanion.Services.IPrayerTimeService, IslamicCompanion.Services.PrayerTimeService>();
 builder.Services.AddHttpClient<IslamicCompanion.Services.IQuranApiService, IslamicCompanion.Services.QuranApiService>();
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<IslamicCompanion.Data.ApplicationDbContext>();
 
-    // This command forces the app to build your tables on the remote server the moment it starts
+    // This command forces the app to build tables on the remote server the moment it starts
     dbContext.Database.Migrate();
 }
+
+var supportedCultures = new[] { "en-US", "ar-EG" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

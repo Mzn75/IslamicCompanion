@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+
+@{
     Layout = null;
 }
 
@@ -10,53 +13,70 @@
     <meta name="google-site-verification" content="VbCx6Zv4C3t4FPbjahzG1Fjp-1hGZPQa-hoYmw6jXNc" />
     <title>Login - Islamic Companion</title>
 
-    <!-- 2. You MUST manually include your CSS and Fonts since the layout is gone -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
 
     <div class="dashboard-header" style="padding-bottom: 2rem;">
-        <h1>Welcome Back</h1>
-        <p style="opacity: 0.9; margin-top: 0.5rem;">Please log in to continue</p>
+        <h1>@localizer["Welcome Back"]</h1>
+        <p style="opacity: 0.9; margin-top: 0.5rem;">@localizer["Please log in to continue"]</p>
+        <button type="button" class="islamic-btn" onclick="toggleLanguage()">
+            <i class="bi bi-globe"></i> English / عربي
+        </button>
     </div>
 
     <div class="dashboard-layout" style="display: flex; justify-content: center;">
         <div class="islamic-card" style="width: 100%; max-width: 400px; margin-top: 3rem; z-index: 10;">
-            <div class="card-title" style="justify-content: center;">Login</div>
+            <div class="card-title" style="justify-content: center;">@localizer["Login"]</div>
 
             @if (ViewBag.Error != null)
             {
                 <div style="background: #fee2e2; color: #dc2626; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; text-align: center; font-weight: 600;">
-                    @ViewBag.Error
+                    @localizer[(string)ViewBag.Error]
                 </div>
             }
 
             <form method="post" asp-controller="Account" asp-action="Login" style="display: flex; flex-direction: column; gap: 1rem;">
                 <div>
-                    <label style="font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 0.5rem;">Username</label>
-                    <input name="username" placeholder="Enter your username" required
+                    <label style="font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 0.5rem;">@localizer["Username"]</label>
+                    <input name="username" placeholder="@localizer["Enter your username"]" required
                            style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-family: var(--font-ui);" />
                 </div>
 
                 <div>
-                    <label style="font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 0.5rem;">Password</label>
-                    <input name="password" type="password" placeholder="Enter your password" required
+                    <label style="font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 0.5rem;">@localizer["Password"]</label>
+                    <input name="password" type="password" placeholder="@localizer["Enter your password"]" required
                            style="width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-family: var(--font-ui);" />
                 </div>
 
                 <button type="submit" style="background: var(--primary-main); color: white; border: none; padding: 1rem; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 0.5rem; transition: background 0.3s ease;">
-                    Log In
+                    @localizer["Log In"]
                 </button>
 
                 <div style="text-align: center; margin-top: 1.5rem;">
                     <p style="color: var(--text-muted);">
-                        Don't have an account?
-                        <a href="/Account/Register" style="color: var(--accent-gold); font-weight: bold; text-decoration: none;">Sign up here</a>
+                        @localizer["Don't have an account?"]
+                        <a href="/Account/Register" style="color: var(--accent-gold); font-weight: bold; text-decoration: none;">@localizer["Sign up here"]</a>
                     </p>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+            function toggleLanguage() {
+                // 1. Check if the browser's cookie is currently set to Arabic
+                const isArabic = document.cookie.includes("c=ar-EG");
 
+                // 2. Set the official ASP.NET Core cookie to the opposite language (lasts 1 year)
+                if (isArabic) {
+                    document.cookie = ".AspNetCore.Culture=c=en-US|uic=en-US;path=/;max-age=31536000";
+                } else {
+                    document.cookie = ".AspNetCore.Culture=c=ar-EG|uic=ar-EG;path=/;max-age=31536000";
+                }
+
+                // 3. Reload the page instantly to apply the new language
+                location.reload();
+            }
+    </script>
 </body>
 </html>
