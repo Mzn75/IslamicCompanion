@@ -20,7 +20,7 @@ namespace IslamicCompanion.Services
 
         public async Task<DailyPrayerTimes> GetPrayerTimesAsync(DateTime date, double lat, double lng)
         {
-            var url = $"https://api.aladhan.com/v1/timings/{date:dd-MM-yyyy}?latitude={lat}&longitude={lng}"; ;
+            var url = $"https://api.aladhan.com/v1/timings/{date:dd-MM-yyyy}?latitude={lat.ToString(System.Globalization.CultureInfo.InvariantCulture)}&longitude={lng.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
 
             var response = await _httpClient.GetFromJsonAsync<AlAdhanResponse>(url);
 

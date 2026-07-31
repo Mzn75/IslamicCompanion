@@ -86,7 +86,7 @@
             {
                 <div>
                     <a asp-controller="Account" asp-action="Logout" class="sidebar-link" style="color: #fca5a5 !important;">
-                        <span class="icon">🚪</span> Logout
+                        <span class="icon">🚪</span> @localizer["Logout"]
                     </a>
                 </div>
             }
@@ -94,14 +94,14 @@
             {
                 <div>
                     <a asp-controller="Account" asp-action="Login" class="sidebar-link">
-                        <span class="icon">🔑</span> Login
+                        <span class="icon">🔑</span> @localizer["Login"]
                     </a>
                 </div>
             }
 
             <!-- Developed By Section -->
             <div class="sidebar-footer" style="text-align: center;">
-                Developed By <br /><strong style="color: var(--accent-gold); font-weight: 700;">Mazen Thobian</strong>
+                @localizer["Developed By"] <br /><strong style="color: var(--accent-gold); font-weight: 700;">Mazen Thobian</strong>
             </div>
 
         </nav>
