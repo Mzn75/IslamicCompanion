@@ -1,4 +1,7 @@
-﻿@model IEnumerable<IslamicCompanion.Models.Friendship>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+
+@model IEnumerable<IslamicCompanion.Models.Friendship>
 @{
     ViewData["Title"] = "Community";
     var currentUserId = ViewBag.CurrentUserId;
@@ -6,7 +9,7 @@
 }
 
 <div style="max-width: 600px; margin: 0 auto; padding: 2rem;">
-    <h2 class="mb-4 text-center">Community</h2>
+    <h2 class="mb-4 text-center">@localizer["Community"]</h2>
 
     <div class="row">
 
@@ -19,8 +22,8 @@
                 <form asp-action="SendRequest" method="post">
                     <div class="islamic-input-wrapper">
                         <div style="display:flex; gap: 1rem; align-items:stretch;">
-                            <input type="text" name="targetUsername" class="islamic-textbox" placeholder="Enter username..." required />
-                            <button type="submit" class="islamic-btn" style="background-color: var(--primary-main);">Send</button>
+                            <input type="text" name="targetUsername" class="islamic-textbox" placeholder="@localizer["Enter username"]..." required />
+                            <button type="submit" class="islamic-btn" style="background-color: var(--primary-main);">@localizer["Send"]</button>
                         </div>
                     </div>
                 </form>
@@ -30,7 +33,7 @@
             @if (pendingRequests != null && pendingRequests.Any())
             {
                 <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
-                    <h3 style="margin: 0; margin-bottom: 1rem;">Pending Requests</h3>
+                    <h3 style="margin: 0; margin-bottom: 1rem;">@localizer["Pending Requests"]</h3>
 
                     @foreach (var request in pendingRequests)
                     {
@@ -42,12 +45,12 @@
                             <div style="display:flex; flex-direction:row; gap:5px;">
                                 <form asp-controller="Friends" asp-action="AcceptRequest" method="post">
                                     <input type="hidden" name="friendshipId" value="@request.Id" />
-                                    <button type="submit" class="islamic-action-btn btn-accept" title="Accept Request">✓</button>
+                                    <button type="submit" class="islamic-action-btn btn-accept" title="@localizer["Accept Request"]">✓</button>
                                 </form>
 
                                 <form asp-controller="Friends" asp-action="RemoveFriend" method="post">
                                     <input type="hidden" name="friendshipId" value="@request.Id" />
-                                    <button type="submit" class="islamic-action-btn btn-decline" title="Decline Request">✕</button>
+                                    <button type="submit" class="islamic-action-btn btn-decline" title="@localizer["Decline Request"]">✕</button>
                                 </form>
                             </div>
                         </div>
@@ -60,12 +63,12 @@
         <div class="col-md-7 mb-4">
 
             <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem; height: 100%;">
-                <h1 style="margin: 0; margin-bottom: 1.5rem; text-align: center;">My Friends</h1>
+                <h1 style="margin: 0; margin-bottom: 1.5rem; text-align: center;">@localizer["My Friends"]</h1>
 
                 @if (!Model.Any())
                 {
                     <p style="font-size: 1.2rem; color: var(--accent-gold); text-align:center; margin-top: 2rem;">
-                        You haven't added any friends yet. Search for a username to start building your community!
+                        @localizer["You haven't added any friends yet. Search for a username to start building your community!"]
                     </p>
                 }
                 else
@@ -86,15 +89,15 @@
                                     <hr style="opacity: 0.5;" />
 
                                     <!-- Streak (Matches your snippet) -->
-                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">Current Streak:</h3>
+                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">@localizer["Current Streak"]:</h3>
                                     <p style="font-size: 2rem; color: #f59e0b; font-weight: bold; text-align:center; margin-bottom: 15px;">
-                                        @friend.CurrentStreak days 🔥
+                                        @friend.CurrentStreak @localizer["days"] 🔥
                                     </p>
 
                                     <hr style="opacity: 0.3;" />
 
                                     <!-- Total Sessions (Matches your snippet) -->
-                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">Total Adhkar:</h3>
+                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">@localizer["Total Adhkar Completed"]:</h3>
                                     <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center; margin-bottom: 1.5rem;">
                                         @friend.TotalAdhkarSessions
                                     </p>
@@ -102,15 +105,15 @@
                                     <hr style="opacity: 0.3;" />
 
                                     <!-- Total Sessions (Matches your snippet) -->
-                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">Total Done Tasks:</h3>
+                                    <h3 style="margin: 0; text-align: center; font-size: 1.1rem;">@localizer["Total Done Tasks"]:</h3>
                                     <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center; margin-bottom: 1.5rem;">
                                         @friend.TotalDoneTasks
                                     </p>
 
                                     <form asp-action="RemoveFriend" method="post">
                                         <input type="hidden" name="friendshipId" value="@friendship.Id" />
-                                        <button type="submit" class="islamic-btn-remove" onclick="return confirm('Are you sure you want to remove @friend.DisplayName?');">
-                                            Remove Friend
+                                        <button type="submit" class="islamic-btn-remove" onclick="return confirm('@localizer["Are you sure you want to remove"] @friend.DisplayName?');">
+                                            @localizer["Remove Friend"]
                                         </button>
                                     </form>
                                 </div>
@@ -135,11 +138,11 @@
                 <text>
                         Swal.fire({
                             title: 'Success!',
-                        text: '@TempData["Success"]',
+                        text: '@(TempData["Success"] != null ? Html.Raw(localizer[(string)TempData["Success"]].Value) : "")',
                         icon: 'success',
-                        confirmButtonColor: '#185a44', // Matches your custom green
-                        background: '#f9f7f2',         // Matches your --bg-cream
-                        color: '#1e293b'               // Matches your --text-dark
+                        confirmButtonColor: '#185a44',
+                        background: '#f9f7f2',
+                        color: '#1e293b'
                         });
                 </text>
         }
@@ -150,7 +153,7 @@
                 <text>
                         Swal.fire({
                             title: 'Wait a second...',
-                        text: '@TempData["Error"]',
+                        text: '@(TempData["Error"] != null ? Html.Raw(localizer[(string)TempData["Error"]].Value) : "")',
                         icon: 'error',
                         confirmButtonColor: '#185a44',
                         background: '#f9f7f2',

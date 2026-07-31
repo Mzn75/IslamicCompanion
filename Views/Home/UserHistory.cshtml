@@ -1,4 +1,7 @@
 ﻿@using System.Linq
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+
 
 @model IEnumerable<IGrouping<string, RoutineActivity>>
 
@@ -10,19 +13,19 @@
 
     <div style="text-align: left; margin-bottom: 1.5rem;">
         <a href="/Home/Index" style="color: #6b7280; text-decoration: none; font-weight: bold; padding: 8px 16px; border: 1px solid #d1d5db; border-radius: 6px; display: inline-block; transition: all 0.2s ease;">
-            ⬅️  Back
+            ⬅️  @localizer["Back"]
         </a>
     </div>
 
     <h2 style="text-align: center; color: #1f2937; margin-bottom: 1rem;">
-        History
+        @localizer["History"]
     </h2>
     <hr style="border: 0; height: 2px; background-color: var(--primary-main); margin-bottom: 1.5rem;" />
 
     @if (!Model.Any())
     {
         <p style="text-align: center; color: #6b7280; font-style: italic;">
-            No tasks completed yet. Start checking off your daily tasks!
+            @localizer["No tasks completed yet. Start checking off your daily tasks!"]
         </p>
     }
     else

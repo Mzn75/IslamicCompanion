@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accept Request" xml:space="preserve">
+    <value>قبول الطلب</value>
+  </data>
   <data name="Add a Friend" xml:space="preserve">
     <value>إضافة صديق</value>
   </data>
@@ -129,11 +132,14 @@
   <data name="Another Verse" xml:space="preserve">
     <value>آية مختلفة</value>
   </data>
+  <data name="Are you sure you want to remove" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد إزالة </value>
+  </data>
   <data name="Asr" xml:space="preserve">
     <value>العصر</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>العودة</value>
+    <value>عودة</value>
   </data>
   <data name="Choose a username" xml:space="preserve">
     <value>اختر اسم مستخدم </value>
@@ -159,6 +165,12 @@
   <data name="Dashboard" xml:space="preserve">
     <value>لوحة التحكم</value>
   </data>
+  <data name="days" xml:space="preserve">
+    <value>أيام</value>
+  </data>
+  <data name="Decline Request" xml:space="preserve">
+    <value>رفض الطلب</value>
+  </data>
   <data name="Developed By" xml:space="preserve">
     <value>تم تطويره بواسطة</value>
   </data>
@@ -183,11 +195,29 @@
   <data name="Evening" xml:space="preserve">
     <value>المساء</value>
   </data>
+  <data name="Failed to load verse. Please try again." xml:space="preserve">
+    <value>خطأ في تحميل الآية يرجى المحاولة لاحقًا</value>
+  </data>
+  <data name="Failed to save task to server." xml:space="preserve">
+    <value>خطأ في حفظ المهمة على الخادم.</value>
+  </data>
   <data name="Fajr" xml:space="preserve">
     <value>الفجر</value>
   </data>
   <data name="Find peace in the remembrance of Allah" xml:space="preserve">
     <value>اعثر على السكينة في ذكر الله</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>إنهاء</value>
+  </data>
+  <data name="Friend added!" xml:space="preserve">
+    <value>تم إضافة صديق!</value>
+  </data>
+  <data name="Friend removed." xml:space="preserve">
+    <value>تم إزالة صديق.</value>
+  </data>
+  <data name="Friend request sent to" xml:space="preserve">
+    <value>تم إرسال طلب صداقة إلى </value>
   </data>
   <data name="Full Name" xml:space="preserve">
     <value>الاسم الكامل</value>
@@ -209,6 +239,9 @@
   </data>
   <data name="Islamic Companion" xml:space="preserve">
     <value>الرفيق الإسلامي</value>
+  </data>
+  <data name="Loading..." xml:space="preserve">
+    <value>جاري التحميل...</value>
   </data>
   <data name="Locating You..." xml:space="preserve">
     <value>جاري تحديد موقعك</value>
@@ -243,11 +276,26 @@
   <data name="My Friends" xml:space="preserve">
     <value>أصدقائي</value>
   </data>
+  <data name="Network error. Could not save task." xml:space="preserve">
+    <value>خطأ في الشبكة تعذر حفظ المهمة.</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>التالي</value>
   </data>
+  <data name="No tasks completed yet. Start checking off your daily tasks!" xml:space="preserve">
+    <value>لم يتم إنجاز أي مهام حتى الآن. ابدأ في إنجاز مهامك اليومية!</value>
+  </data>
+  <data name="of" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="Page Not Found" xml:space="preserve">
+    <value>تعذر العثور على الصفحة</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>كلمة المرور</value>
+  </data>
+  <data name="Pending Requests" xml:space="preserve">
+    <value>طلبات قيد الانتظار</value>
   </data>
   <data name="Please allow location access so we can provide accurate prayer times for your exact city." xml:space="preserve">
     <value>يرجى السماح بالوصول إلى موقعك لإعطائك مواعيد الصلاة الصحيحة حسب موقعك الحالي</value>
@@ -279,6 +327,9 @@
   <data name="Remove Friend" xml:space="preserve">
     <value>إزالة صديق</value>
   </data>
+  <data name="Request already sent or you are already friends." xml:space="preserve">
+    <value>تم إرسال الطلب بالفعل أو أنكما أصدقاء بالفعل.</value>
+  </data>
   <data name="Send" xml:space="preserve">
     <value>إرسال</value>
   </data>
@@ -290,6 +341,18 @@
   </data>
   <data name="Sleep" xml:space="preserve">
     <value>النوم</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>تم بنجاح</value>
+  </data>
+  <data name="Sunrise" xml:space="preserve">
+    <value>الشروق</value>
+  </data>
+  <data name="Take Me Home" xml:space="preserve">
+    <value>العودة إلى لوحة التحكم</value>
+  </data>
+  <data name="The page you are looking for might have been removed, had its name changed, or is temporarily unavailable." xml:space="preserve">
+    <value>ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متاحة مؤقتًا.</value>
   </data>
   <data name="Total Adhkar Completed" xml:space="preserve">
     <value>إجمالي الأذكار المنجزة</value>
@@ -303,6 +366,9 @@
   <data name="Upcoming Prayer" xml:space="preserve">
     <value>الصلاة القادمة</value>
   </data>
+  <data name="User not found!" xml:space="preserve">
+    <value>هذا المستخدم غير موجود!</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>اسم المستخدم</value>
   </data>
@@ -314,6 +380,12 @@
   </data>
   <data name="Welcome To the Islamic Companion" xml:space="preserve">
     <value>مرحبًا بك في الرفيق الإسلامي</value>
+  </data>
+  <data name="You cannot add yourself!" xml:space="preserve">
+    <value>لا يمكنك إضافة نفسك</value>
+  </data>
+  <data name="You haven't added any friends yet. Search for a username to start building your community!" xml:space="preserve">
+    <value>لم تقم بإضافة أي أصدقاء حتى الآن. ابحث عن اسم مستخدم لتبدأ في بناء مجتمعك!</value>
   </data>
   <data name="Your Username" xml:space="preserve">
     <value>اسم المستخدم الخاص بك</value>

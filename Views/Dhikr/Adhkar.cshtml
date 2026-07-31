@@ -1,12 +1,15 @@
-﻿@model IslamicCompanion.Models.AdhkarViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+
+@model IslamicCompanion.Models.AdhkarViewModel
 @{
     ViewData["Title"] = "Daily Adhkar";
 }
 
 <!-- Page Header -->
 <div class="dashboard-header" style="text-align: center; margin-bottom: 2.5rem;">
-    <h1>Daily Adhkar</h1>
-    <p style="opacity: 0.9; margin-top: 0.5rem;">Find peace in the remembrance of Allah</p>
+    <h1>@localizer["Daily Adhkar"]</h1>
+    <p style="opacity: 0.9; margin-top: 0.5rem;">@localizer["Find peace in the remembrance of Allah"]</p>
 </div>
 
 <!-- Modern Toggle Buttons -->
@@ -18,7 +21,7 @@
         background: linear-gradient(135deg, #f59e0b, #fbbf24); color: white; font-size: 1.1rem; font-weight: 700;
         cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         transition: all 0.3s ease;">
-        <span style="font-size: 1.5rem;">☀️</span> Morning
+        <span style="font-size: 1.5rem;">☀️</span> @localizer["Morning"]
     </button>
 
     <!-- Evening Button (Dusk Gradient) -->
@@ -27,7 +30,7 @@
         background: linear-gradient(135deg, #312e81, #4f46e5); color: white; font-size: 1.1rem; font-weight: 700;
         cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         transition: all 0.3s ease;">
-        <span style="font-size: 1.5rem;">🌙</span> Evening
+        <span style="font-size: 1.5rem;">🌙</span> @localizer["Evening"]
     </button>
 
     <!-- Sleep Button (Deep Night Gradient) -->
@@ -36,7 +39,7 @@
         background: linear-gradient(135deg, #0f172a, #334155); color: white; font-size: 1.1rem; font-weight: 700;
         cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         transition: all 0.3s ease;">
-        <span style="font-size: 1.5rem;">🌌</span> Sleep
+        <span style="font-size: 1.5rem;">🌌</span> @localizer["Sleep"]
     </button>
 
     <!-- Travel Button (Sky Gradient) -->
@@ -45,15 +48,15 @@
         background: linear-gradient(135deg, #0284c7, #38bdf8); color: white; font-size: 1.1rem; font-weight: 700;
         cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         transition: all 0.3s ease;">
-        <span style="font-size: 1.5rem;">✈️</span> Travel
+        <span style="font-size: 1.5rem;">✈️</span> @localizer["Travel"]
     </button>
 </div>
 
 <!-- 1. The Progress Bar -->
 <div style="max-width: 600px; margin: 0 auto 2rem auto; width:90%;">
     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">
-        <span id="progress-text">0 of 0</span>
-        <span id="current-category">Progress</span>
+        <span id="progress-text">0 @localizer["of"] 0</span>
+        <span id="current-category">@localizer["Progress"]</span>
     </div>
     <div style="width: 100%; background-color: #e5e7eb; border-radius: 99px; height: 10px; overflow: hidden;">
         <div id="progress-fill" style="height: 100%; background: var(--accent-gold); width: 0%; transition: width 0.4s ease; border-radius: 99px;"></div>
@@ -82,7 +85,7 @@
 <div class="dhikr-container" style="padding: 2rem; max-width: 600px; margin: 0 auto; min-height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 90%;">
 
     <!-- Cute Title -->
-    <h3 style="color: var(--primary-dark); margin-bottom: 20px; font-weight: bold;">Dhikr Counter</h3>
+    <h3 style="color: var(--primary-dark); margin-bottom: 20px; font-weight: bold;">@localizer["Dhikr Counter"]</h3>
 
     <!-- The Big Circular Button -->
     <button class="dhikr-counter-btn" onclick="incrementDhikr()">
@@ -93,10 +96,10 @@
 <!-- 3. Navigation Buttons -->
 <div style="display: flex; justify-content: space-between; max-width: 600px; margin: 2rem auto; gap: 1rem; width:90%;">
     <button id="btn-prev" onclick="prevDhikr()" style="flex: 1; padding: 1rem; border: 2px solid var(--accent-gold); background: transparent; color: var(--accent-gold); border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease;">
-        ← Previous
+        ← @localizer["Previous"]
     </button>
     <button id="btn-next" onclick="nextDhikr()" style="flex: 1; padding: 1rem; border: none; background: var(--accent-gold); color: white; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);">
-        Next →
+        @localizer["Next"] →
     </button>
 </div>
 
@@ -148,25 +151,25 @@
         // 2. Activate the clicked button
         if (type === 'morning') {
             currentList = morningList;
-            if (categoryText) categoryText.innerText = "☀️ Morning Progress";
+            if (categoryText) categoryText.innerText = '☀️ @localizer["Progress"]';
             btnMorning.style.opacity = '1';
             btnMorning.style.transform = 'scale(1.05)';
             btnMorning.style.boxShadow = '0 8px 15px rgba(245, 158, 11, 0.4)';
         } else if (type === 'evening') {
             currentList = eveningList;
-            if (categoryText) categoryText.innerText = "🌙 Evening Progress";
+            if (categoryText) categoryText.innerText = '🌙 @localizer["Progress"]';
             btnEvening.style.opacity = '1';
             btnEvening.style.transform = 'scale(1.05)';
             btnEvening.style.boxShadow = '0 8px 15px rgba(49, 46, 129, 0.4)';
         } else if (type === 'sleep') {
             currentList = sleepList;
-            if (categoryText) categoryText.innerText = "🌌 Sleep Progress";
+            if (categoryText) categoryText.innerText = '🌌 @localizer["Progress"]';
             btnSleep.style.opacity = '1';
             btnSleep.style.transform = 'scale(1.05)';
             btnSleep.style.boxShadow = '0 8px 15px rgba(15, 23, 42, 0.4)';
         } else if (type === 'travel') {
             currentList = travelList;
-            if (categoryText) categoryText.innerText = "✈️ Travel Progress";
+            if (categoryText) categoryText.innerText = '✈️ @localizer["Progress"]';
             btnTravel.style.opacity = '1';
             btnTravel.style.transform = 'scale(1.05)';
             btnTravel.style.boxShadow = '0 8px 15px rgba(2, 132, 199, 0.4)';
@@ -206,7 +209,8 @@
         // Progress Bar Update
         const progressPercentage = ((currentIndex + 1) / totalAdhkar) * 100;
         progressFill.style.width = progressPercentage + '%';
-        progressText.innerText = (currentIndex + 1) + " of " + totalAdhkar;
+        const translatedOf = '@Html.Raw(localizer["of"].Value)';
+        progressText.innerHTML = `<bdi>${currentIndex + 1}</bdi> ${translatedOf} <bdi>${totalAdhkar}</bdi>`;
 
         // Previous Button Status
         if (currentIndex === 0) {
@@ -219,10 +223,10 @@
 
         // Next Button Status
         if (currentIndex === totalAdhkar - 1) {
-            btnNext.innerText = "Finish ✓";
+            btnNext.innerText = "@localizer["Finish"] ✓";
             btnNext.style.background = "#10b981"; // Green
         } else {
-            btnNext.innerText = "Next →";
+            btnNext.innerText = "@localizer["Next"] →";
             btnNext.style.background = "var(--accent-gold)"; // Back to gold
         }
     }

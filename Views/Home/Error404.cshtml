@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+
+@{
     ViewData["Title"] = "404 - Not Found";
 }
 
@@ -11,16 +14,16 @@
 
     <!-- Subtitle using your magenta/pink -->
     <h2 style="color: var(--primary-dark); font-size: 2rem; margin-top: -10px; margin-bottom: 20px;">
-        Page Not Found
+        @localizer["Page Not Found"]
     </h2>
 
     <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 400px; margin-bottom: 30px;">
-        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+        @localizer["The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."]
     </p>
 
     <!-- Cute button to go back home -->
     <a href="/" style="background-color: var(--primary-main); color: var(--bg-cream); padding: 12px 30px; border-radius: 25px; text-decoration: none; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease; box-shadow: 0px 4px 10px rgba(255, 143, 171, 0.3);">
-        &#x1F3E0; Take Me Home
+        &#x1F3E0; @localizer["Take Me Home"]
     </a>
 </div>
 

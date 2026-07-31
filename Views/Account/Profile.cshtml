@@ -1,4 +1,7 @@
-﻿@model IslamicCompanion.Models.UserProfileViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<SharedResource> localizer
+
+@model IslamicCompanion.Models.UserProfileViewModel
 @{
     ViewData["Title"] = "Profile";
 }
@@ -7,33 +10,33 @@
 
     <!-- Displaying the Name -->
     <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
-        <h1 style="margin: 0;">Hello, @Model.FullName</h1>
-        <p style="font-size: 1.5rem; color: var(--primary-main)">Your Username: <spans style="font-size: 1.5rem; color: #1E293B">@Model.Username</spans></p>
+        <h1 style="margin: 0;">@localizer["Hello"], @Model.FullName</h1>
+        <p style="font-size: 1.5rem; color: var(--primary-main)">@localizer["Your Username"]: <spans style="font-size: 1.5rem; color: #1E293B">@Model.Username</spans></p>
     </div>
 
     <!-- Displaying the Streak -->
     <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
-        <h3 style="margin: 0;">Current Streak:</h3>
+        <h3 style="margin: 0;">@localizer["Current Streak"]:</h3>
         <p style="font-size: 2rem; color: #f59e0b; font-weight: bold; text-align:center;">
-            @Model.CurrentStreak days 🔥
+            @Model.CurrentStreak @localizer["days"] 🔥
         </p>
     </div>
 
     <!-- Displaying Total Sessions -->
     <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
-        <h3 style="margin: 0;">Total Adhkar Completed:</h3>
+        <h3 style="margin: 0;">@localizer["Total Adhkar Completed"]:</h3>
         <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center;">@Model.TotalAdhkarSessions</p>
     </div>
 
     <!-- Displaying Total Tasks Score -->
     <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
-        <h3 style="margin: 0;">Total Done Tasks: </h3>
+        <h3 style="margin: 0;">@localizer["Total Done Tasks"]: </h3>
         <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center;">@Model.TotalDoneTasks</p>
     </div>
 
     <!-- Displaying Date Joined -->
     <div class="islamic-card" style="padding: 1.5rem; margin-top: 1rem;">
-        <h3 style="margin: 0;">Member since: </h3>
+        <h3 style="margin: 0;">@localizer["Member since"]: </h3>
         <p style="font-size: 1.5rem; color: var(--primary-main); text-align:center;">@Model.JoinedDate.ToString("MMMM dd, yyyy")</p>
     </div>
 </div>
