@@ -11,6 +11,7 @@ A comprehensive ASP.NET Core MVC web application designed to help users build an
 *   **Streak System:** Keep your momentum going by tracking your current and highest daily activity streaks.
 *   **Community & Friends:** Connect with friends, view their profiles, and encourage each other by comparing total completed tasks on custom Islamic-themed UI cards.
 *   **Detailed History:** Look back at your previously completed tasks with a fully dynamic history log grouped by date.
+*   **Bilingual Support:** Fully translated and available in both English and Arabic.
 
 ---
 
