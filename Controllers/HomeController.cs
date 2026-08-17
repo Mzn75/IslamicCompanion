@@ -10,7 +10,10 @@ using IslamicCompanion.Models;
 using IslamicCompanion.Services;
 using IslamicCompanion.Data; // Required for the database context
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using TimeZoneConverter;
+using Microsoft.AspNetCore.Http;
+
 
 namespace IslamicCompanion.Controllers
 {
@@ -127,15 +130,54 @@ namespace IslamicCompanion.Controllers
 
                 var username = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
                 var todayString = DateTime.Now.ToString("yyyy-MM-dd");
+                DateTime todayDate = DateTime.Now.Date;
 
-                // 4. SQL REPLACEMENT: Ask database if this specific task exists today
+                // 1. Fetch currentUser FIRST so it is never null when we need it
+                var currentUser = _context.Users.FirstOrDefault(u => u.Username == username);
+
+                if (currentUser == null)
+                {
+                    return BadRequest("User not found in database.");
+                }
+
+                // 2. STREAK LOGIC: Only give the streak if they are checking the box (not unchecking)
+                if (request.IsCompleted)
+                {
+                    DateTime? lastDate = currentUser.LastAdhkarDate?.Date;
+
+                    // Only update if they haven't already locked in a streak today
+                    if (lastDate != todayDate)
+                    {
+                        if (lastDate == null || lastDate < todayDate.AddDays(-1))
+                        {
+                            // First time ever, or they missed yesterday. Reset streak to 1.
+                            currentUser.CurrentStreak = 1;
+                        }
+                        else if (lastDate == todayDate.AddDays(-1))
+                        {
+                            // They did it yesterday! Increase the streak.
+                            currentUser.CurrentStreak += 1;
+                        }
+
+                        // Update Highest Streak if they broke their record
+                        if (currentUser.CurrentStreak > currentUser.HighestStreak)
+                        {
+                            currentUser.HighestStreak = currentUser.CurrentStreak;
+                        }
+
+                        // Lock in today's date for the streak!
+                        // (TotalAdhkarSessions += 1 was deleted from here so it only counts on Finish)
+                        currentUser.LastAdhkarDate = DateTime.Now;
+                    }
+                }
+
+                // 3. TASK LOGIC: Ask database if this specific task exists today
+                // (Using AppUserId instead of User.Username prevents potential database mapping crashes)
                 var existingTask = _context.Activities.FirstOrDefault(t =>
-                    t.User.Username == username &&
+                    t.AppUserId == currentUser.Id &&
                     t.TaskId == request.TaskId &&
                     t.TaskName == request.TaskName &&
                     t.TaskDate == todayString);
-
-                var currentUser = _context.Users.FirstOrDefault(u => u.Username == username);
 
                 if (existingTask != null)
                 {
@@ -156,10 +198,11 @@ namespace IslamicCompanion.Controllers
                     });
                 }
 
-                // 5. Save all changes to the database at once
+                // 4. Save ALL changes (both the streak and the task) to the database at once
                 _context.SaveChanges();
 
-                return Ok();
+                // Return the current streak so you can display it if you want
+                return Ok(new { success = true, currentStreak = currentUser.CurrentStreak });
             }
             catch (Exception ex)
             {
@@ -201,6 +244,33 @@ namespace IslamicCompanion.Controllers
         public IActionResult Error404()
         {
             return View("Error404");
+        }
+
+        public class LocationUpdateModel
+        {
+            public string TimeZone { get; set; }
+            public double? Lat { get; set; }
+            public double? Lng { get; set; }
+        }
+
+        [HttpPost]
+        public IActionResult SilentlyUpdateLocation([FromBody] LocationUpdateModel model)
+        {
+            if (model != null && !string.IsNullOrEmpty(model.TimeZone))
+            {
+                // Save the location data to cookies using ASP.NET Core syntax
+                Response.Cookies.Append("UserTimeZone", model.TimeZone);
+
+                if (model.Lat.HasValue)
+                    Response.Cookies.Append("UserLat", model.Lat.Value.ToString());
+
+                if (model.Lng.HasValue)
+                    Response.Cookies.Append("UserLng", model.Lng.Value.ToString());
+
+                return Ok(); // This fixes the HttpStatusCodeResult error
+            }
+
+            return BadRequest();
         }
     }
 }

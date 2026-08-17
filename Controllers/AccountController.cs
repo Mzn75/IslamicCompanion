@@ -125,33 +125,13 @@ namespace IslamicCompanion.Controllers
             // 3. Always increase their total lifetime sessions
             user.TotalAdhkarSessions += 1;
 
-            // 4. Calculate the Streak
-            if (lastDate == null || lastDate < today.AddDays(-1))
-            {
-                // They missed yesterday (or first time ever). Reset streak to 1.
-                user.CurrentStreak = 1;
-            }
-            else if (lastDate == today.AddDays(-1))
-            {
-                // They completed it yesterday! Increase the streak.
-                user.CurrentStreak += 1;
-            }
-            // (If lastDate == today, we do nothing to the streak. It just stays active.)
-
-            // 5. Update Highest Streak if necessary
-            if (user.CurrentStreak > user.HighestStreak)
-            {
-                user.HighestStreak = user.CurrentStreak;
-            }
-
-            // 6. Record that they just finished a session right now
+            // 4. Record that they just finished a session right now
             user.LastAdhkarDate = DateTime.Now;
 
-            // 7. Save the updated profile back to SQL Database
+            // 5. Save the updated profile back to SQL Database
             _authService.UpdateUser(user);
 
-            // Return the new streak number so the frontend can use it if it wants
-            return Json(new { success = true, newStreak = user.CurrentStreak });
+            return Json(new { success = true });
         }
 
         [Authorize]

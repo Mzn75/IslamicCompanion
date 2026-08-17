@@ -164,6 +164,52 @@
                 checkboxElement.checked = !checkboxElement.checked;
             });
         }
+
+                function syncLocationSilently() {
+                    // 1. Check if we already synced this session to prevent server spam
+                    if (sessionStorage.getItem('locationSynced')) {
+                        return; // We already updated the cookies on this visit, so stop here.
+                    }
+
+                    // 2. Get the timezone from the browser
+                    const currentZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                    // 3. Try to get the user's GPS coordinates
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            const userLat = position.coords.latitude;
+                            const userLng = position.coords.longitude;
+
+                            // 4. Send everything to your ASP.NET Core Controller
+                            // IMPORTANT: Change 'Home' to whatever your controller is named!
+                            fetch('/Home/SilentlyUpdateLocation', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    timeZone: currentZone,
+                                    lat: userLat,
+                                    lng: userLng
+                                })
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        console.log("Location and timezone safely baked into cookies.");
+                                        // Drop a flag so we don't spam the server on the next page load
+                                        sessionStorage.setItem('locationSynced', 'true');
+                                    }
+                                })
+                                .catch(error => console.error("Error syncing location:", error));
+
+                        }, function(error) {
+                            console.warn("Could not get GPS coordinates. User might have blocked it.");
+                        });
+                    }
+                }
+
+                // 5. Run the function automatically as soon as the page loads
+                document.addEventListener("DOMContentLoaded", syncLocationSilently);
 </script>
         }
     }
