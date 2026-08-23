@@ -24,6 +24,5 @@ A comprehensive ASP.NET Core MVC web application designed to help users build an
 
 ---
 
-## 👨‍💻 Author
-
-*   **Mazen Thobian**
+### 🚀 Live Demo
+🔗 **Visit the website:** [Islamic Companion](http://islamic-sompanion.runasp.net/)
