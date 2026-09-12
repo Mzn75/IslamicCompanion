@@ -18,6 +18,9 @@
 
 	<ItemGroup>
 		<!-- Prevents local data from wiping the live server database -->
+		<Content Update="appsettings.Production.Development.json">
+		  <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
 		<Content Update="taskHistory.json" CopyToPublishDirectory="Never" />
 		<Content Update="users.json" CopyToPublishDirectory="Never" />
 
