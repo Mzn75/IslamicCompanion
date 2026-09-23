@@ -35,7 +35,18 @@ namespace IslamicCompanion.Services
             "8:33",
             "2:153",
             "11:115",
-            "65:3"
+            "65:3","9:40",
+            "18:10",
+            "20:46",
+            "21:87",
+            "28:24",
+            "33:56",
+            "49:13",
+            "57:4",
+            "59:22",
+            "67:1",
+            "73:9",
+            "89:27"
         };
 
         // A dictionary mapping the Surah number to both its English and Arabic names
@@ -54,7 +65,19 @@ namespace IslamicCompanion.Services
             { 93, ("Ad-Duha", "الضحى") },
             { 8, ("Al-Anfal", "الأنفال") },
             { 11, ("Hud", "هود") },
-            { 65, ("At-Talaq", "الطلاق") }
+            { 65, ("At-Talaq", "الطلاق") },
+            { 9, ("At-Tawbah", "التوبة") },
+            { 18, ("Al-Kahf", "الكهف") },
+            { 20, ("Taha", "طه") },
+            { 21, ("Al-Anbiya", "الأنبياء") },
+            { 28, ("Al-Qasas", "القصص") },
+            { 33, ("Al-Ahzab", "الأحزاب") },
+            { 49, ("Al-Hujurat", "الحجرات") },
+            { 57, ("Al-Hadid", "الحديد") },
+            { 59, ("Al-Hashr", "الحشر") },
+            { 67, ("Al-Mulk", "الملك") },
+            { 73, ("Al-Muzzammil", "المزمل") },
+            { 89, ("Al-Fajr", "الفجر") }
         };
 
         public async Task<QuranVerse> GetDailyVerseAsync()
