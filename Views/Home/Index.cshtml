@@ -127,7 +127,6 @@
     // 1. Daily Verse Loader
         async function loadNewVerse() {
             document.getElementById('verse-arabic').innerText = '⏳ @localizer["Loading..."]';
-            document.getElementById('verse-translation').innerText = '';
             document.getElementById('verse-ref').innerText = '';
 
             try {
@@ -135,10 +134,9 @@
                 const verse = await response.json();
 
                 document.getElementById('verse-arabic').innerText = verse.arabicText;
-                document.getElementById('verse-translation').innerText = `"${verse.translation}"`;
                 document.getElementById('verse-ref').innerText = `— ${verse.surahName} (${verse.surahNameArabic}) [${verse.surahNumber}:${verse.ayahNumber}]`;
             } catch (error) {
-                document.getElementById('verse-translation').innerText = '@localizer["Failed to load verse. Please try again."]';
+                document.getElementById('verse-arabic').innerText = '@localizer["Failed to load verse. Please try again."]';
             }
         }
 
