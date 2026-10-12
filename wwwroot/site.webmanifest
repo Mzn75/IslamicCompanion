@@ -1,20 +1,20 @@
 {
   "name": "Islamic Companion",
   "short_name": "Islamic Companion",
-  "start_url": "/",
-  "scope": "/",
   "icons": [
     {
-      "src": "/wwwroot/android-chrome-192x192.png",
+      "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/wwwroot/android-chrome-512x512.png",
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
+  "start_url": "/",
+  "scope": "/",
   "theme_color": "#d4af37",
   "background_color": "#f9f7f2",
   "display": "standalone"
