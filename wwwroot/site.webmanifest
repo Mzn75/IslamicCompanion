@@ -1,6 +1,8 @@
 {
   "name": "Islamic Companion",
   "short_name": "Islamic Companion",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
